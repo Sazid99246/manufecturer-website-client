@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Blogs from './Pages/Blogs/Blogs';
+import Dashboard from './Pages/DashBoard/Dashboard';
 import Home from './Pages/Home/Home';
 import Login from './Pages/Login/Login';
 import Purchase from './Pages/Purchase/Purchase';
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/purchase' element={<Purchase />} />
+        <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/blogs' element={<Blogs />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />

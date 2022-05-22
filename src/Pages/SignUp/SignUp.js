@@ -2,30 +2,33 @@ import React from 'react';
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { signOut } from 'firebase/auth';
-
+import {FcGoogle} from 'react-icons/fc'
 const SignUp = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
     const navigate = useNavigate();
-    const [createUserWithEmailAndPassword,user,loading,error] = useCreateUserWithEmailAndPassword(auth);
-    const onSubmit = (data) => {
-        createUserWithEmailAndPassword(data.email, data.password)
+    const [createUserWithEmailAndPassword,user,loading,error] = useCreateUserWithEmailAndPassword(auth, {sendEmailVerification: true});
+    const [updateProfile, updating, updateError] = useUpdateProfile(auth);
+    const onSubmit = async (data) => {
+        await createUserWithEmailAndPassword(data.email, data.password);
+        await updateProfile({ displayName: data.name });
     };
+    const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
     let signUpError
-    if(user){
+    if(user || gUser){
         signOut(auth);
         navigate('/login');
     }
-    if(loading){
+    if(loading || gLoading || updating){
         return <button class="btn loading">Loading</button>
     }
-    if(error){
-        signUpError = <p className='text-red-500'>{error?.message}</p>
+    if(error || gError || updateError){
+        signUpError = <p className='text-red-500'>{error?.message || gError?.message || updateError?.message}</p>
     }
     return (
         <div className='max-h-screen flex justify-center items-center'>
-            <div class="card w-96 shadow-2xl text-center bg-base-100">
+            <div class="card w-96 border-2 text-center bg-base-100">
                 <div class="card-body">
                     <h2 className='text-2xl'>Sign Up</h2>
                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -92,20 +95,19 @@ const SignUp = () => {
                                     {errors.password?.type === 'minLength' && "Password must be at least 6 characters or longer"}
                                 </span>
                             </label>
-                            <label class="label">
-                                <a href="/" class="label-text-alt link link-hover">Forgot password?</a>
-                            </label>
                         </div>
                         {signUpError}
-                        <div class="form-control mt-6">
+                        <div class="form-control">
                             <button class="btn btn-primary">Sign Up</button>
                         </div>
-                        <div class="form-control mt-6">
+                        <div class="form-control">
                             <p>Already a member?
                                 <Link to='/login' class="btn btn-link">Login now</Link>
                             </p>
                         </div>
                     </form>
+                    <div class="divider">OR</div>
+                    <button onClick={() => signInWithGoogle()} className='btn rounded-full btn-outline btn-primary'><FcGoogle />    Continue With Google</button>
                 </div>
             </div>
         </div>

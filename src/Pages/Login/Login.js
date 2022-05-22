@@ -1,18 +1,26 @@
 import React from 'react';
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useForm } from "react-hook-form";
 import { Link } from 'react-router-dom';
 import auth from '../../firebase.init';
+import {FcGoogle} from 'react-icons/fc';
 const Login = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
     const [signInWithEmailAndPassword, user, loading, error] = useSignInWithEmailAndPassword(auth);
-    
+    const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+    let loginError;
+    if (loading || gLoading) {
+        <button className='btn btn-loading'>loading</button>
+    }
+    if (error || gError) {
+        loginError = <p className='text-red-500'>{error?.message || gError?.message}</p>
+    }
     const onSubmit = data => {
         signInWithEmailAndPassword(data.email, data.password);
     };
     return (
         <div className='max-h-screen flex justify-center items-center'>
-            <div class="card w-96 shadow-2xl bg-base-100">
+            <div class="card w-96 border-2 bg-base-100">
                 <div class="card-body">
                     <h2 className='text-2xl text-center'>Login</h2>
                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -60,19 +68,19 @@ const Login = () => {
                                     {errors.password?.type === 'minLength' && "Password must be at least 6 characters or longer"}
                                 </span>
                             </label>
-                            <label class="label">
-                                <a href="/" class="label-text-alt link link-hover">Forgot password?</a>
-                            </label>
                         </div>
-                        <div class="form-control mt-6">
+                        {loginError}
+                        <div class="form-control">
                             <button class="btn btn-primary">Login</button>
                         </div>
-                        <div class="form-control mt-6">
+                        <div class="form-control">
                             <p>Don't have an account?
                                 <Link to='/signup' class="btn btn-link">Register now</Link>
                             </p>
                         </div>
                     </form>
+                    <div class="divider">OR</div>
+                    <button onClick={() => signInWithGoogle()} className='btn rounded-full btn-outline btn-primary'><FcGoogle />    Continue With Google</button>
                 </div>
             </div>
         </div>

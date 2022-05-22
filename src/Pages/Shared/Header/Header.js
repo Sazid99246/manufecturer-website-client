@@ -6,7 +6,8 @@ import auth from '../../../firebase.init';
 
 const Header = () => {
   const [user] = useAuthState(auth)
-  const handleSignOut = ()=>{
+
+  const handleSignOut = () => {
     signOut(auth)
   }
   const menuItems = (<>
@@ -14,9 +15,14 @@ const Header = () => {
     <li><NavLink to='/purchase'>Purchase</NavLink></li>
     <li><NavLink to='/blogs'>Blogs</NavLink></li>
     {
-      user? <li><button onClick={handleSignOut} className='btn btn-outline btn-primary'>Sign Out</button></li>
-      :
-      <li><NavLink to='/login'>Login</NavLink></li>
+      user ?
+        <>
+          <li><NavLink to='/dashboard'>Dashboard</NavLink></li>
+          <li className='mr-4 text-center mt-3'>{user?.displayName}</li>
+          <li><button onClick={handleSignOut} className='btn btn-outline btn-primary'>Sign Out</button></li>
+        </>
+        :
+        <li><NavLink to='/login'>Login</NavLink></li>
     }
 
   </>)
