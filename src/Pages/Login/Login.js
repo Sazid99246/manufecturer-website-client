@@ -1,17 +1,24 @@
 import React from 'react';
 import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useForm } from "react-hook-form";
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
-import {FcGoogle} from 'react-icons/fc';
+import { FcGoogle } from 'react-icons/fc';
+import LoadingButton from '../Shared/LoadingButton/LoadingButton';
 const Login = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
     const [signInWithEmailAndPassword, user, loading, error] = useSignInWithEmailAndPassword(auth);
     const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
-    let loginError;
-    if (loading || gLoading) {
-        <button className='btn btn-loading'>loading</button>
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
+    if (user || gUser) {
+        navigate(from, { replace: true });
     }
+    if (loading || gLoading) {
+        return <LoadingButton />
+    }
+    let loginError;
     if (error || gError) {
         loginError = <p className='text-red-500'>{error?.message || gError?.message}</p>
     }

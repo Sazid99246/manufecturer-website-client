@@ -4,11 +4,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
 import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { signOut } from 'firebase/auth';
-import {FcGoogle} from 'react-icons/fc'
+import { FcGoogle } from 'react-icons/fc'
+import LoadingButton from '../Shared/LoadingButton/LoadingButton';
 const SignUp = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
     const navigate = useNavigate();
-    const [createUserWithEmailAndPassword,user,loading,error] = useCreateUserWithEmailAndPassword(auth, {sendEmailVerification: true});
+    const [createUserWithEmailAndPassword, user, loading, error] = useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
     const onSubmit = async (data) => {
         await createUserWithEmailAndPassword(data.email, data.password);
@@ -16,14 +17,14 @@ const SignUp = () => {
     };
     const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
     let signUpError
-    if(user || gUser){
+    if (user || gUser) {
         signOut(auth);
         navigate('/login');
     }
-    if(loading || gLoading || updating){
-        return <button class="btn loading">Loading</button>
+    if (loading || gLoading || updating) {
+        return <LoadingButton />
     }
-    if(error || gError || updateError){
+    if (error || gError || updateError) {
         signUpError = <p className='text-red-500'>{error?.message || gError?.message || updateError?.message}</p>
     }
     return (
