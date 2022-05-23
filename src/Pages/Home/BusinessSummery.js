@@ -19,7 +19,7 @@ const BusinessSummery = () => {
                     </div>
 
                     <div class="stat">
-                        <div class="stat-value flex items-center">4.5 <AiFillStar className='text-xl' /> </div>
+                        <div class="stat-value flex items-center">4.5 <AiFillStar className='text-xl text-orange-400' /> </div>
                         <div class="stat-title">Ratings</div>
                     </div>
 
