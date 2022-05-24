@@ -19,7 +19,7 @@ const Header = () => {
         <>
           <li><NavLink to='/dashboard'>Dashboard</NavLink></li>
           <li className='mr-4 text-center mt-3'>{user?.displayName}</li>
-          <li><button onClick={handleSignOut} className='btn btn-outline btn-primary'>Sign Out</button></li>
+          <li><button onClick={handleSignOut} className='btn btn-outline btn-secondary'>Sign Out</button></li>
         </>
         :
         <li><NavLink to='/login'>Login</NavLink></li>

@@ -87,7 +87,7 @@ const Login = () => {
                         </div>
                     </form>
                     <div class="divider">OR</div>
-                    <button onClick={() => signInWithGoogle()} className='btn rounded-full btn-outline btn-primary'><FcGoogle />    Continue With Google</button>
+                    <button onClick={() => signInWithGoogle()} className='btn rounded-full btn-outline btn-primary'><FcGoogle className='mr-2' /> Continue With Google</button>
                 </div>
             </div>
         </div>
