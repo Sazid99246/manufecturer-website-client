@@ -3,16 +3,16 @@ import React from 'react';
 const Review = ({ review }) => {
     const { name, img, description } = review;
     return (
-        <div class="card w-96 bg-base-100 shadow-xl">
+        <div className="card w-96 bg-base-100 shadow-xl">
             <div className='flex justify-between mx-4 mt-3'>
-                <div class="avatar">
-                    <div class="w-24 rounded-full">
+                <div className="avatar">
+                    <div className="w-24 rounded-full">
                         <img src={img} alt='' />
                     </div>
                 </div>
-                <h2 class="card-title">{name}</h2>
+                <h2 className="card-title">{name}</h2>
             </div>
-            <div class="card-body">
+            <div className="card-body">
                 {description}
             </div>
         </div>

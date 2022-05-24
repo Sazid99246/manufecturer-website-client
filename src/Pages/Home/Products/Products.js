@@ -17,7 +17,7 @@ const Products = () => {
             <div className='flex items-center justify-center'>
                 <div className=' grid grid-cols-1 lg:grid-cols-3 gap-6'>
                     {
-                        products.map(product => <Product
+                        products?.map(product => <Product
                             key={product._id}
                             product={product}
                         ></Product>)
