@@ -2,61 +2,104 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init'
+import { useForm } from "react-hook-form";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Purchase = () => {
     const { productId } = useParams();
     const [product, setProduct] = useState({});
-    console.log(product);
+    const { register, handleSubmit } = useForm();
+    let quantity;
     useEffect(() => {
         fetch(`http://localhost:5000/product/${productId}`)
             .then(res => res.json())
             .then(data => setProduct(data))
     }, [productId])
     const [user] = useAuthState(auth)
+
+    const onSubmit = data => {
+        if (data.quantity > product.maxQuantity || data.quantity < product.minQuantity) {
+            toast(`Sorry, You can't order more than ${product.maxQuantity}  less than ${product.minQuantity}`)
+        }
+        if(data.quantity <= product.maxQuantity || data.quantity >= product.MinQuantity){
+            toast('Product purchased successfully')
+        }
+    }
     return (
         <div className='mb-4'>
             <h1 className='text-3xl text-center mt-3'>You are going to buy {product.name}</h1>
-            <div class="hero min-h-screen bg-base-100">
-                <div class="hero-content flex-col lg:flex-row">
-                    <img src={product.bigImg} class="rounded-lg" alt='' />
+            <div className="hero min-h-screen bg-base-100">
+                <div className="hero-content flex-col lg:flex-row">
+                    <img src={product.bigImg} className="rounded-lg" alt='' />
                     <div>
-                        <h1 class="text-5xl font-bold">{product.name}</h1>
-                        <p class="py-6"><b>Description:</b> {product.description}</p>
+                        <h1 className="text-5xl font-bold">{product.name}</h1>
+                        <p className="py-6"><b>Description:</b> {product.description}</p>
                     </div>
                 </div>
             </div>
             <div>
                 <h2 className='text-center text-bold'>Please provide your information here</h2>
                 <div className='flex items-center justify-center'>
-                    <form>
-                        <div class="form-control w-full max-w-xs">
-                            <label class="label">
-                                <span class="label-text">Name</span>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <div className="form-control w-full max-w-xs">
+                            <label className="label">
+                                <span className="label-text">Name</span>
                             </label>
-                            <input disabled type="text" class="w-60 input input-bordered max-w-xs" value={user?.displayName} />
+                            <input
+                                disabled
+                                type="text"
+                                className="w-60 input input-bordered max-w-xs"
+                                value={user?.displayName}
+                            />
                         </div>
-                        <div class="form-control w-full max-w-xs">
-                            <label class="label">
-                                <span class="label-text">Email</span>
+                        <div className="form-control w-full max-w-xs">
+                            <label className="label">
+                                <span className="label-text">Email</span>
                             </label>
-                            <input disabled type="email" class=" w-60 input input-bordered max-w-xs" value={user?.email} />
+                            <input
+                                disabled
+                                type="email"
+                                className=" w-60 input input-bordered max-w-xs"
+                                value={user?.email}
+                            />
                         </div>
-                        <div class="form-control w-full max-w-xs">
-                            <label class="label">
-                                <span class="label-text">Address</span>
+                        <div className="form-control w-full max-w-xs">
+                            <label className="label">
+                                <span className="label-text">Quantity</span>
                             </label>
-                            <input type="text" class=" w-60 input input-bordered max-w-xs" />
+                            <input
+                                {...register("quantity", { required: true })}
+                                type="number"
+                                className=" w-60 input input-bordered max-w-xs"
+                                value={quantity}
+                            />
                         </div>
-                        <div class="form-control w-full max-w-xs">
-                            <label class="label">
-                                <span class="label-text">Phone Number</span>
+                        <div className="form-control w-full max-w-xs">
+                            <label className="label">
+                                <span className="label-text">Address</span>
                             </label>
-                            <input type="number" class=" w-60 input input-bordered max-w-xs" />
+                            <input
+                                {...register("address", { required: true })}
+                                type="text"
+                                className=" w-60 input input-bordered max-w-xs"
+                            />
                         </div>
-                        <div class="form-control mt-2 w-full max-w-xs">
-                            <input type="submt" className='btn btn-primary' value="Submit" />
+                        <div className="form-control w-full max-w-xs">
+                            <label className="label">
+                                <span className="label-text">Phone Number</span>
+                            </label>
+                            <input
+                                {...register("phone-number", { required: true })}
+                                type="number"
+                                className=" w-60 input input-bordered max-w-xs"
+                            />
+                        </div>
+                        <div className="form-control mt-2 w-full max-w-xs">
+                            <input type="submit" className='btn btn-primary' value="Submit" />
                         </div>
                     </form>
                 </div>
+                <ToastContainer></ToastContainer>
             </div>
         </div>
     );
