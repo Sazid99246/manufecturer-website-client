@@ -12,11 +12,11 @@ const MyOrders = () => {
     return (
         <div>
             <h2 className='text-3xl'>My Orders: {myOrders.length}</h2>
-            <div class="overflow-x-auto">
-                <table class="table table-compact w-full">
+            <div  className="overflow-x-auto">
+                <table  className="table table-compact w-full">
                     <thead>
                         <tr>
-                            <th></th>
+                            <th>#</th>
                             <th>Image</th>
                             <th>Product</th>
                             <th>Price</th>
@@ -26,8 +26,8 @@ const MyOrders = () => {
                     </thead>
                     <tbody>
                         {
-                            myOrders.map((order, index) => <tr>
-                                <th>{index + 1}</th>
+                            myOrders.map((order, index) => <tr key={order._id}>
+                                <td>{index + 1}</td>
                                 <td><img style={{height: "100px", width: "100px"}} src={order.productImg} alt="" /></td>
                                 <td>{order.productName}</td>
                                 <td>{order.productPrice}</td>
