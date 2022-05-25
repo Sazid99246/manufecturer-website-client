@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const Purchase = () => {
     const { productId } = useParams();
     const [product, setProduct] = useState({});
-    const { register, handleSubmit } = useForm();
+    const { register, formState: { errors }, handleSubmit } = useForm();
     let quantity;
     useEffect(() => {
         fetch(`http://localhost:5000/product/${productId}`)
@@ -27,6 +27,7 @@ const Purchase = () => {
             productId: product._id,
             productName: product.name,
             productImg: product.img,
+            productQuantity: data.quantity,
             productPrice: product.price,
         }
         fetch('http://localhost:5000/order', {
@@ -94,6 +95,8 @@ const Purchase = () => {
                                 className=" w-60 input input-bordered max-w-xs"
                                 value={quantity}
                             />
+                            {errors.quantity?.type === 'required' && <p className='text-red-500'>Quantity is required</p>}
+
                         </div>
                         <div className="form-control w-full max-w-xs">
                             <label className="label">
@@ -104,6 +107,7 @@ const Purchase = () => {
                                 type="text"
                                 className=" w-60 input input-bordered max-w-xs"
                             />
+                            {errors.address?.type === 'required' && <p className='text-red-500'>Address is required</p>}
                         </div>
                         <div className="form-control w-full max-w-xs">
                             <label className="label">
@@ -114,6 +118,7 @@ const Purchase = () => {
                                 type="number"
                                 className=" w-60 input input-bordered max-w-xs"
                             />
+                            {errors.phoneNumber?.type === 'required' && <p className='text-red-500'>Phone number is required</p>}
                         </div>
                         <div className="form-control mt-2 w-full max-w-xs">
                             <input type="submit" className='btn btn-primary' value="Submit" />
