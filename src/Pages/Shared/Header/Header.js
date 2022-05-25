@@ -11,13 +11,13 @@ const Header = () => {
     signOut(auth)
   }
   const menuItems = (<>
-    <li><NavLink to='/'>Home</NavLink></li>
-    <li><NavLink to='/purchase'>Purchase</NavLink></li>
-    <li><NavLink to='/blogs'>Blogs</NavLink></li>
+    <li className='mr-2'><NavLink to='/'>Home</NavLink></li>
+    <li className='mr-2'><NavLink to='/blogs'>Blogs</NavLink></li>
+    <li className='mr-2'><NavLink to='/myportfolio'>About Me</NavLink></li>
     {
       user ?
         <>
-          <li><NavLink to='/dashboard'>Dashboard</NavLink></li>
+          <li className='mr-2'><NavLink to='/dashboard'>Dashboard</NavLink></li>
           <li className='mr-4 text-center mt-3'>{user?.displayName}</li>
           <li><button onClick={handleSignOut} className='btn btn-outline btn-secondary'>Sign Out</button></li>
         </>

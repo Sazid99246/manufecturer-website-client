@@ -14,7 +14,7 @@ const Dashboard = () => {
                 <ul  className="menu w-80 bg-base-100 text-base-content">
                     <li><Link to='/dashboard/'>My Orders</Link></li>
                     <li><Link to='/dashboard/myreview'>My Review</Link></li>
-                    <li><Link to='/dashboard/myportfolio'>My Profile</Link></li>
+                    <li><Link to='/dashboard/myprofile'>My Profile</Link></li>
                 </ul>
             </div>
         </div>
