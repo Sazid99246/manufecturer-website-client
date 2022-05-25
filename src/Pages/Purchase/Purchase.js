@@ -17,12 +17,33 @@ const Purchase = () => {
     }, [productId])
     const [user] = useAuthState(auth)
 
-    const onSubmit = data => {
+    const onSubmit = (data) => {
+        console.log(data);
+        const order = {
+            userName: user?.displayName,
+            userEmail: user?.email,
+            userPhoneNumber: data.phoneNumber,
+            userAddress: data.address,
+            productId: product._id,
+            productName: product.name,
+            productImg: product.img,
+            productPrice: product.price,
+        }
+        fetch('http://localhost:5000/order', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(order)
+        })
+            .then(res => res.json())
+            .then(data => {
+                setProduct(data)
+                toast('Product purchased successfully')
+            })
+
         if (data.quantity > product.maxQuantity || data.quantity < product.minQuantity) {
             toast(`Sorry, You can't order more than ${product.maxQuantity}  less than ${product.minQuantity}`)
-        }
-        if(data.quantity <= product.maxQuantity || data.quantity >= product.MinQuantity){
-            toast('Product purchased successfully')
         }
     }
     return (
@@ -48,7 +69,7 @@ const Purchase = () => {
                             <input
                                 disabled
                                 type="text"
-                                className="w-60 input input-bordered max-w-xs"
+                                className="input input-bordered"
                                 value={user?.displayName}
                             />
                         </div>
@@ -89,7 +110,7 @@ const Purchase = () => {
                                 <span className="label-text">Phone Number</span>
                             </label>
                             <input
-                                {...register("phone-number", { required: true })}
+                                {...register("phoneNumber", { required: true })}
                                 type="number"
                                 className=" w-60 input input-bordered max-w-xs"
                             />
