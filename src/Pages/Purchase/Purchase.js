@@ -11,7 +11,7 @@ const Purchase = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
     let quantity;
     useEffect(() => {
-        fetch(`http://localhost:5000/product/${productId}`)
+        fetch(`https://safe-tor-48967.herokuapp.com/product/${productId}`)
             .then(res => res.json())
             .then(data => setProduct(data))
     }, [productId])
@@ -30,7 +30,7 @@ const Purchase = () => {
             productQuantity: data.quantity,
             productPrice: product.price,
         }
-        fetch('http://localhost:5000/order', {
+        fetch('https://safe-tor-48967.herokuapp.com/order', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

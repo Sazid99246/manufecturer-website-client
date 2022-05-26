@@ -9,8 +9,8 @@ const MyPortfolio = () => {
                 <li className='py-2'><b>Name: </b>Sheikh MD Sazidul Islam</li>
                 <li className='py-2'><b>Email: </b>shikhmdsazidulislam@gmail.com</li>
                 <li className='py-2'><b>Education: </b>
-                    <div class="overflow-x-auto">
-                        <table class="table table-compact w-full">
+                    <div className="overflow-x-auto">
+                        <table className="table table-compact w-full">
                             <thead>
                                 <tr>
                                     <th>Year</th>

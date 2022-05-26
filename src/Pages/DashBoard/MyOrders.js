@@ -5,14 +5,14 @@ const MyOrders = () => {
     const [user] = useAuthState(auth)
     const [myOrders, setMyOrders] = useState([]);
     useEffect(() => {
-        fetch(`http://localhost:5000/order?userEmail=${user?.email}`)
+        fetch(`https://safe-tor-48967.herokuapp.com/order?userEmail=${user?.email}`)
             .then(res => res.json())
             .then(data => setMyOrders(data))
     }, [user?.email])
     const handleProductDelete = id =>{
         const proceed =window.confirm("Are you sure you want to delete?")
         if(proceed){
-            fetch(`http://localhost:5000/order/${id}`, {
+            fetch(`https://safe-tor-48967.herokuapp.com/order/${id}`, {
                 method: "DELETE",  
             })
             .then(res=> res.json())
